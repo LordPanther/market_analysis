@@ -48,7 +48,7 @@ class _ExploreDrawerState extends State<ExploreDrawer> {
                         // shape: RoundedRectangleBorder(
                         //   borderRadius: BorderRadius.circular(15),
                         // ),
-                        child: Padding(
+                        child: const Padding(
                           padding: EdgeInsets.only(
                             top: 15.0,
                             bottom: 15.0,
