@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68850936821",
+    "project_id": "spartan-vine-242218",
+    "storage_bucket": "spartan-vine-242218.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68850936821:android:d2959a0ba4c437d5ac0ebc",
+        "android_client_info": {
+          "package_name": "com.example.market_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68850936821-ehtvfnguji135i3cr35iv20inqorlb41.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOv4hgbOW84Uw-l-_CGUj2kmpcUFU75ow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68850936821-ehtvfnguji135i3cr35iv20inqorlb41.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

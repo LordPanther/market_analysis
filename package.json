@@ -1,0 +1,7 @@
+{
+  "name": "market_app",
+  "version": "1.0.0",
+  "dependencies": {
+    "firebase": "^9.14.0"
+  }
+}
