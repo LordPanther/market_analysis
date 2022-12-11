@@ -108,7 +108,7 @@ class _WebScrollbarState extends State<WebScrollbar> {
                     ),
                     decoration: BoxDecoration(
                       color: widget.color,
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(3.0),
                       ),
                     ),

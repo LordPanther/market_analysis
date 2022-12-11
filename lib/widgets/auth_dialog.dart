@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/home_page.dart';
 import '../utils/authentication.dart';
@@ -84,7 +85,7 @@ class _AuthDialogState extends State<AuthDialog> {
                 const SizedBox(height: 50),
                 Center(
                   child: Text(
-                    'Hello There!',
+                    'Hi There!',
                     style: TextStyle(
                       color: Theme.of(context).textTheme.headline1!.color,
                       fontSize: 24,
@@ -191,173 +192,177 @@ class _AuthDialogState extends State<AuthDialog> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          width: double.maxFinite,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              primary: Colors.blueGrey.shade800,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                            ),
-                            onPressed: () async {
-                              setState(() {
-                                _isLoggingIn = true;
-                                textFocusNodeEmail.unfocus();
-                                textFocusNodePassword.unfocus();
-                              });
-                              if (_validateEmail(textControllerEmail.text) ==
+                  child: Consumer<Authentication>(
+                    builder: (context, auth, child) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: Container(
+                              width: double.maxFinite,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.blueGrey.shade800,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  setState(() {
+                                    _isLoggingIn = true;
+                                    textFocusNodeEmail.unfocus();
+                                    textFocusNodePassword.unfocus();
+                                  });
+                                  if (_validateEmail(textControllerEmail.text) ==
                                       null &&
-                                  _validatePassword(
+                                      _validatePassword(
                                           textControllerPassword.text) ==
-                                      null) {
-                                await signInWithEmailPassword(
+                                          null) {
+                                    await auth.signInWithEmailPassword(
                                         textControllerEmail.text,
                                         textControllerPassword.text)
-                                    .then((result) {
-                                  if (result != null) {
-                                    print(result);
-                                    setState(() {
-                                      loginStatus =
+                                        .then((result) {
+                                      if (result != null) {
+                                        print(result);
+                                        setState(() {
+                                          loginStatus =
                                           'You have successfully logged in';
-                                      loginStringColor = Colors.green;
+                                          loginStringColor = Colors.green;
+                                        });
+                                        Future.delayed(const Duration(milliseconds: 500),
+                                                () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context)
+                                                  .pushReplacement(MaterialPageRoute(
+                                                fullscreenDialog: true,
+                                                builder: (context) => const HomePage(),
+                                              ));
+                                            });
+                                      }
+                                    }).catchError((error) {
+                                      print('Login Error: $error');
+                                      setState(() {
+                                        loginStatus =
+                                        'Error occured while logging in';
+                                        loginStringColor = Colors.red;
+                                      });
                                     });
-                                    Future.delayed(const Duration(milliseconds: 500),
-                                        () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context)
-                                          .pushReplacement(MaterialPageRoute(
-                                        fullscreenDialog: true,
-                                        builder: (context) => const HomePage(),
-                                      ));
+                                  } else {
+                                    setState(() {
+                                      loginStatus = 'Please enter email & password';
+                                      loginStringColor = Colors.red;
                                     });
                                   }
-                                }).catchError((error) {
-                                  print('Login Error: $error');
                                   setState(() {
-                                    loginStatus =
-                                        'Error occured while logging in';
-                                    loginStringColor = Colors.red;
+                                    _isLoggingIn = false;
+                                    textControllerEmail.text = '';
+                                    textControllerPassword.text = '';
+                                    _isEditingEmail = false;
+                                    _isEditingPassword = false;
                                   });
-                                });
-                              } else {
-                                setState(() {
-                                  loginStatus = 'Please enter email & password';
-                                  loginStringColor = Colors.red;
-                                });
-                              }
-                              setState(() {
-                                _isLoggingIn = false;
-                                textControllerEmail.text = '';
-                                textControllerPassword.text = '';
-                                _isEditingEmail = false;
-                                _isEditingPassword = false;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 15.0,
-                                bottom: 15.0,
-                              ),
-                              child: _isLoggingIn
-                                  ? const SizedBox(
-                                      height: 16,
-                                      width: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                          Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  : const Text(
-                                      'Log in',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 15.0,
+                                    bottom: 15.0,
+                                  ),
+                                  child: _isLoggingIn
+                                      ? const SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor:
+                                      AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
                                       ),
                                     ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          width: double.maxFinite,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              primary: Colors.blueGrey.shade800,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                  )
+                                      : const Text(
+                                    'Log in',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                            onPressed: () async {
-                              setState(() {
-                                _isRegistering = true;
-                              });
-                              await registerWithEmailPassword(
+                          ),
+                          const SizedBox(width: 20),
+                          Flexible(
+                            flex: 1,
+                            child: Container(
+                              width: double.maxFinite,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.blueGrey.shade800,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  setState(() {
+                                    _isRegistering = true;
+                                  });
+                                  await auth.registerWithEmailPassword(
                                       textControllerEmail.text,
                                       textControllerPassword.text)
-                                  .then((result) {
-                                if (result != null) {
-                                  setState(() {
-                                    loginStatus =
+                                      .then((result) {
+                                    if (result != null) {
+                                      setState(() {
+                                        loginStatus =
                                         'You have registered successfully';
-                                    loginStringColor = Colors.green;
-                                  });
-                                  print(result);
-                                }
-                              }).catchError((error) {
-                                print('Registration Error: $error');
-                                setState(() {
-                                  loginStatus =
+                                        loginStringColor = Colors.green;
+                                      });
+                                      print(result);
+                                    }
+                                  }).catchError((error) {
+                                    print('Registration Error: $error');
+                                    setState(() {
+                                      loginStatus =
                                       'Error occured while registering';
-                                  loginStringColor = Colors.red;
-                                });
-                              });
+                                      loginStringColor = Colors.red;
+                                    });
+                                  });
 
-                              setState(() {
-                                _isRegistering = false;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 15.0,
-                                bottom: 15.0,
-                              ),
-                              child: _isRegistering
-                                  ? const SizedBox(
-                                      height: 16,
-                                      width: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                          Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  : const Text(
-                                      'Sign up',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
+                                  setState(() {
+                                    _isRegistering = false;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 15.0,
+                                    bottom: 15.0,
+                                  ),
+                                  child: _isRegistering
+                                      ? const SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor:
+                                      AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
                                       ),
                                     ),
+                                  )
+                                      : const Text(
+                                    'Sign up',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
                 ),
                 loginStatus != null

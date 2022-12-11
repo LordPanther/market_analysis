@@ -1,5 +1,6 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/home_page.dart';
 import '../utils/authentication.dart';
@@ -42,7 +43,7 @@ class _TopBarContentsState extends State<TopBarContents> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'EXPLORE',
+                'HELUVA',
                 style: TextStyle(
                   color: Colors.blueGrey[100],
                   fontSize: 20,
@@ -131,7 +132,7 @@ class _TopBarContentsState extends State<TopBarContents> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.brightness_6),
+                icon: const Icon(Icons.brightness_6),
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 color: Colors.white,
@@ -142,97 +143,101 @@ class _TopBarContentsState extends State<TopBarContents> {
               SizedBox(
                 width: screenSize.width / 50,
               ),
-              InkWell(
-                onHover: (value) {
-                  setState(() {
-                    value ? _isHovering[3] = true : _isHovering[3] = false;
-                  });
-                },
-                onTap: userEmail == null
-                    ? () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AuthDialog(),
-                        );
-                      }
-                    : null,
-                child: userEmail == null
-                    ? Text(
-                        'Sign in',
-                        style: TextStyle(
-                          color: _isHovering[3] ? Colors.white : Colors.white70,
-                        ),
-                      )
-                    : Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundImage: imageUrl != null
-                                ? NetworkImage(imageUrl!)
-                                : null,
-                            child: imageUrl == null
-                                ? const Icon(
-                                    Icons.account_circle,
-                                    size: 30,
-                                  )
-                                : Container(),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            name ?? userEmail!,
-                            style: TextStyle(
-                              color: _isHovering[3]
-                                  ? Colors.white
-                                  : Colors.white70,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              primary: Colors.blueGrey,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            onPressed: _isProcessing
-                                ? null
-                                : () async {
-                                    setState(() {
-                                      _isProcessing = true;
-                                    });
-                                    await signOut().then((result) {
-                                      print(result);
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          fullscreenDialog: true,
-                                          builder: (context) => const HomePage(),
-                                        ),
-                                      );
-                                    }).catchError((error) {
-                                      print('Sign Out Error: $error');
-                                    });
-                                    setState(() {
-                                      _isProcessing = false;
-                                    });
-                                  },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 8.0,
-                                bottom: 8.0,
-                              ),
-                              child: _isProcessing
-                                  ? const CircularProgressIndicator()
-                                  : const Text(
-                                      'Sign out',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                            ),
-                          )
-                        ],
+              Consumer<Authentication>(
+                builder: (context, auth, child) {
+                  return InkWell(
+                    onHover: (value) {
+                      setState(() {
+                        value ? _isHovering[3] = true : _isHovering[3] = false;
+                      });
+                    },
+                    onTap: auth.userEmail == null
+                        ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(),
+                      );
+                    }
+                        : null,
+                    child: auth.userEmail == null
+                        ? Text(
+                      'Sign in',
+                      style: TextStyle(
+                        color: _isHovering[3] ? Colors.white : Colors.white70,
                       ),
+                    )
+                        : Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundImage: auth.imageUrl != null
+                              ? NetworkImage(auth.imageUrl!)
+                              : null,
+                          child: auth.imageUrl == null
+                              ? const Icon(
+                            Icons.account_circle,
+                            size: 30,
+                          )
+                              : Container(),
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          auth.name ?? auth.userEmail!,
+                          style: TextStyle(
+                            color: _isHovering[3]
+                                ? Colors.white
+                                : Colors.white70,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.blueGrey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          onPressed: _isProcessing
+                              ? null
+                              : () async {
+                            setState(() {
+                              _isProcessing = true;
+                            });
+                            await auth.signOut().then((result) {
+                              print(result);
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (context) => const HomePage(),
+                                ),
+                              );
+                            }).catchError((error) {
+                              print('Sign Out Error: $error');
+                            });
+                            setState(() {
+                              _isProcessing = false;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: _isProcessing
+                                ? const CircularProgressIndicator()
+                                : const Text(
+                              'Sign out',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -7,4 +7,6 @@ projectId: "spartan-vine-242218",
 storageBucket: "spartan-vine-242218.appspot.com",
 messagingSenderId: "68850936821",
 appId: "1:68850936821:web:cfac2054d4f7ec61ac0ebc",
-measurementId: "G-PZNP9NWT6R");
+measurementId: "G-PZNP9NWT6R"
+);
+

@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
               DestinationHeading(screenSize: screenSize),
               DestinationCarousel(),
               SizedBox(height: screenSize.height / 10),
-              BottomBar(),
+              // BottomBar(),
             ],
           ),
         ),

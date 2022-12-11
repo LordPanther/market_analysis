@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:market_app/widgets/responsive.dart';
 
-import 'bottom_bar_column.dart';
-import 'info_text.dart';
+import '../utils/bottom_bar_column.dart';
+import '../utils/info_text.dart';
 
 class BottomBar extends StatelessWidget {
+  const BottomBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
