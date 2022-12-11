@@ -81,9 +81,10 @@ class _AuthDialogState extends State<AuthDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                const SizedBox(height: 50),
                 Center(
                   child: Text(
-                    'EXPLORE',
+                    'Hello There!',
                     style: TextStyle(
                       color: Theme.of(context).textTheme.headline1!.color,
                       fontSize: 24,
@@ -93,24 +94,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    bottom: 8,
-                  ),
-                  child: Text(
-                    'Email address',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2!.color,
-                      fontSize: 18,
-                      // fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      // letterSpacing: 3,
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 50),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20.0,
@@ -132,9 +116,9 @@ class _AuthDialogState extends State<AuthDialog> {
                       FocusScope.of(context)
                           .requestFocus(textFocusNodePassword);
                     },
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      border: new OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
                           color: Colors.blueGrey[800]!,
@@ -142,38 +126,22 @@ class _AuthDialogState extends State<AuthDialog> {
                         ),
                       ),
                       filled: true,
-                      hintStyle: new TextStyle(
+                      hintStyle: TextStyle(
                         color: Colors.blueGrey[300],
                       ),
-                      hintText: "Email",
+                      labelText: "Email",
                       fillColor: Colors.white,
                       errorText: _isEditingEmail
                           ? _validateEmail(textControllerEmail.text)
                           : null,
-                      errorStyle: TextStyle(
+                      errorStyle: const TextStyle(
                         fontSize: 12,
                         color: Colors.redAccent,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    bottom: 8,
-                  ),
-                  child: Text(
-                    'Password',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2!.color,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      // letterSpacing: 3,
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20.0,
@@ -196,9 +164,9 @@ class _AuthDialogState extends State<AuthDialog> {
                       FocusScope.of(context)
                           .requestFocus(textFocusNodePassword);
                     },
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      border: new OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
                           color: Colors.blueGrey[800]!,
@@ -206,10 +174,10 @@ class _AuthDialogState extends State<AuthDialog> {
                         ),
                       ),
                       filled: true,
-                      hintStyle: new TextStyle(
+                      hintStyle: TextStyle(
                         color: Colors.blueGrey[300],
                       ),
-                      hintText: "Password",
+                      labelText: "Password",
                       fillColor: Colors.white,
                       errorText: _isEditingPassword
                           ? _validatePassword(textControllerPassword.text)
@@ -260,7 +228,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                           'You have successfully logged in';
                                       loginStringColor = Colors.green;
                                     });
-                                    Future.delayed(Duration(milliseconds: 500),
+                                    Future.delayed(const Duration(milliseconds: 500),
                                         () {
                                       Navigator.of(context).pop();
                                       Navigator.of(context)

@@ -11,6 +11,7 @@ class GoogleButton extends StatefulWidget {
 }
 
 class _GoogleButtonState extends State<GoogleButton> {
+
   bool _isProcessing = false;
 
   @override
@@ -67,7 +68,7 @@ class _GoogleButtonState extends State<GoogleButton> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
                     Image(
-                      image: AssetImage("assets/images/google_logo.png"),
+                      image: AssetImage("assets/new_images/google_logo.png"),
                       height: 30.0,
                     ),
                     Padding(

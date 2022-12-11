@@ -1,14 +1,23 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:market_app/utils/authentication.dart';
+import 'package:market_app/utils/constants.dart';
 import 'package:market_app/utils/theme_data.dart';
 import 'package:provider/provider.dart';
 
 import 'models/app_auth.dart';
 import 'screens/home_page.dart';
 
-void main() {
+Future main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+      options: authData
+  );
+
   runApp(
     EasyDynamicThemeWidget(
       child: MultiProvider(providers: [
@@ -25,18 +34,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  Future getUserInfo() async {
-    await getUser();
-    setState(() {});
-    print(uid);
-  }
-
-  @override
-  void initState() {
-    getUserInfo();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

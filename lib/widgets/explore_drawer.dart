@@ -72,7 +72,7 @@ class _ExploreDrawerState extends State<ExploreDrawer> {
                           backgroundImage:
                               imageUrl != null ? NetworkImage(imageUrl!) : null,
                           child: imageUrl == null
-                              ? Icon(
+                              ? const Icon(
                                   Icons.account_circle,
                                   size: 40,
                                 )
@@ -81,7 +81,7 @@ class _ExploreDrawerState extends State<ExploreDrawer> {
                         SizedBox(width: 10),
                         Text(
                           name ?? userEmail!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.white70,
                           ),
